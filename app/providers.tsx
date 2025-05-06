@@ -6,9 +6,10 @@ import { wagmiConfig } from "@/utils/contract-utils"
 import { WalletProvider } from "@/context/wallet-context"
 import { NotificationProvider } from "@/context/notification-context"
 import { ToastProvider } from "@/context/toast-context"
-import { Toaster } from "@/components/ui/toaster"
 import { Notification } from "@/components/ui/notification"
 import { WalletModalContainer } from "@/components/wallet-modal-container"
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const queryClient = new QueryClient()
 
@@ -20,9 +21,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
           <ToastProvider>
             <WalletProvider>
               {children}
-              <Toaster />
               <Notification />
               <WalletModalContainer />
+              <Analytics />
+              <SpeedInsights />
             </WalletProvider>
           </ToastProvider>
         </NotificationProvider>

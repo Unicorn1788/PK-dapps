@@ -151,11 +151,10 @@ export default function WalletModal({ isOpen, onClose, onSuccess }: WalletModalP
   // Get wallet icon based on connector ID
   const getWalletIcon = (connectorId: string) => {
     const icons: Record<string, string> = {
-      injected: "/images/wallets/metamask.svg",
       metaMask: "/images/wallets/metamask.svg",
       walletConnect: "/images/wallets/walletconnect.svg",
-      coinbaseWallet: "/images/wallets/coinbase.svg",
-      trust: "/images/wallets/trustwallet.svg",
+      tokenpocket: "/images/wallets/tokenpocket.svg",
+      phantom: "/images/wallets/phantom.svg",
     }
 
     return icons[connectorId] || "/images/wallets/metamask.svg"
@@ -164,14 +163,13 @@ export default function WalletModal({ isOpen, onClose, onSuccess }: WalletModalP
   // Get wallet name based on connector ID
   const getWalletName = (connectorId: string) => {
     const names: Record<string, string> = {
-      injected: "Browser Wallet",
       metaMask: "MetaMask",
       walletConnect: "WalletConnect",
-      coinbaseWallet: "Coinbase Wallet",
-      trust: "Trust Wallet",
+      tokenpocket: "TokenPocket",
+      phantom: "Phantom",
     }
 
-    return names[connectorId] || connectorId
+    return names[connectorId] || "Browser Wallet"
   }
 
   // Render wallet icon

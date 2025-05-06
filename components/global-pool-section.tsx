@@ -5,7 +5,7 @@ import { ChevronDown, Globe2, Shield, Users, TrendingUp, Clock } from "lucide-re
 import { useContractRead } from "wagmi"
 import { POLKING_ADDRESS } from "@/utils/contract-utils"
 import { formatEther, type Address } from "viem"
-import { abi as POLKING_ABI } from "@/app/contracts/POLKING.json"
+import POLKING_ABI from "@/app/contracts/POLKING.json"
 
 // Define return type for getRankCounts
 type RankCounts = {

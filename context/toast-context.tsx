@@ -1,38 +1,77 @@
 "use client"
 
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react"
+import { createContext, useContext, useCallback, type ReactNode } from "react"
+import { toast, Toaster } from "sonner"
 
-type ToastType = "success" | "error" | "warning" | "info"
+type ToastType = "success" | "error" | "warning" | "info" | "loading"
 
 type Toast = {
   type: ToastType
   title: string
-  message: string
+  message?: string
   duration?: number
+  action?: {
+    label: string
+    onClick: () => void
+  }
 }
 
 type ToastContextType = {
-  toast: Toast | null
   showToast: (toast: Toast) => void
-  hideToast: () => void
+  dismissToast: (id: string) => void
 }
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined)
 
 export function ToastProvider({ children }: { children: ReactNode }) {
-  const [toast, setToast] = useState<Toast | null>(null)
+  const showToast = useCallback(({ type, title, message, duration = 5000, action }: Toast) => {
+    const options = {
+      duration,
+      action: action ? {
+        label: action.label,
+        onClick: action.onClick,
+      } : undefined,
+      className: "bg-background border-border",
+      style: {
+        background: "hsl(var(--background))",
+        color: "hsl(var(--foreground))",
+        border: "1px solid hsl(var(--border))",
+      },
+    }
 
-  const showToast = useCallback((newToast: Toast) => {
-    setToast(newToast)
+    switch (type) {
+      case "success":
+        toast.success(title, { description: message, ...options })
+        break
+      case "error":
+        toast.error(title, { description: message, ...options })
+        break
+      case "warning":
+        toast.warning(title, { description: message, ...options })
+        break
+      case "info":
+        toast.info(title, { description: message, ...options })
+        break
+      case "loading":
+        toast.loading(title, { description: message, ...options })
+        break
+    }
   }, [])
 
-  const hideToast = useCallback(() => {
-    setToast(null)
+  const dismissToast = useCallback((id: string) => {
+    toast.dismiss(id)
   }, [])
 
   return (
-    <ToastContext.Provider value={{ toast, showToast, hideToast }}>
+    <ToastContext.Provider value={{ showToast, dismissToast }}>
       {children}
+      <Toaster 
+        position="top-right"
+        expand={true}
+        richColors
+        closeButton
+        theme="dark"
+      />
     </ToastContext.Provider>
   )
 }

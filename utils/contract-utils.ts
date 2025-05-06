@@ -2,8 +2,9 @@ import { Address, parseEther } from "viem";
 import { createConfig, http } from "wagmi";
 import { polygon } from "wagmi/chains";
 import { readContract, writeContract } from "@wagmi/core";
-import { injected } from "wagmi/connectors";
+import { injected, walletConnect } from "wagmi/connectors";
 import POLKING_ABI from "@/app/contracts/POLKING.json";
+
 
 export const POLKING_ADDRESS = "0x33041aaB2d4E13881Dc4AF8e0E0001E25666503A" as Address; // Replace with your contract address
 
@@ -11,7 +12,25 @@ export const POLKING_ADDRESS = "0x33041aaB2d4E13881Dc4AF8e0E0001E25666503A" as A
 export const wagmiConfig = createConfig({
   chains: [polygon],
   connectors: [
-    injected(),
+    injected({
+      target: "metaMask",
+      shimDisconnect: true,
+    }),
+    walletConnect({
+      projectId: (() => {
+        const id = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
+        console.log('WalletConnect Project ID:', id);
+        return id || "";
+      })(),
+    }),
+    injected({
+      target: "tokenPocket",
+      shimDisconnect: true,
+    }),
+    injected({
+      target: "phantom",
+      shimDisconnect: true,
+    }),
   ],
   transports: {
     [polygon.id]: http(),
