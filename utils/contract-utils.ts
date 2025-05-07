@@ -6,8 +6,8 @@ import { injected, walletConnect } from "wagmi/connectors";
 import POLKING_ABI from "@/app/contracts/POLKING.json";
 
 
-export const POLKING_ADDRESS = "0x33041aaB2d4E13881Dc4AF8e0E0001E25666503A" as Address; // Replace with your contract address
-
+export const POLKING_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS! as Address; // Replace with your contract address
+export const PK_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_TOKEN_ADDRESS! as Address;
 // Create wagmi config
 export const wagmiConfig = createConfig({
   chains: [polygon],
